@@ -9,7 +9,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
 
   // Lista de tickers variados
-  const tickers = ['AAPL', 'GOOGL'];
+  const tickers = ['', ''];
 
   const fetchStockMetrics = async (e) => {
     e.preventDefault(); // Evitar el comportamiento por defecto del formulario
