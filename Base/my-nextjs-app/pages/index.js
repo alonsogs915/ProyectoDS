@@ -257,7 +257,7 @@ export default function Home() {
           <h2 className="text-2xl font-bold">Contacto</h2>
           <p>Puedes ponerte en contacto con nosotros para más información o preguntas sobre nuestra plataforma.</p>
           <p className="mt-4">
-            Nombre: Benjamín Fernandez
+            Nombre: Benjamín Fernández
           </p>
           <p>
             Correo electrónico: <a href="mailto:benfernandez@alumnos.uai.cl" className="text-blue-500 underline">benfernandez@alumnos.uai.cl</a>
@@ -269,6 +269,14 @@ export default function Home() {
           <p>
             Correo electrónico: <a href="mailto:algil@alumnos.uai.cl" className="text-blue-500 underline">algil@alumnos.uai.cl</a>
           </p>
+
+          <p className="mt-4">
+            Nombre: Fabián Villalobos 
+          </p>
+          <p>
+            Correo electrónico: <a href="mailto:favillalobos@alumnos.uai.cll" className="text-blue-500 underline">favillalobos@alumnos.uai.cl</a>
+          </p>
+
         </div>
       )}
 
