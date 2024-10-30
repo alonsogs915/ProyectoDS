@@ -100,6 +100,7 @@ export default function Home() {
             <li><a href="#" onClick={() => showSection('Buscador de Acciones')} className="text-white hover:underline">Buscador de Acciones</a></li>
             <li><a href="#" onClick={() => showSection('noticias')} className="text-white hover:underline">Noticias</a></li>
             <li><a href="#" onClick={() => showSection('contacto')} className="text-white hover:underline">Contacto</a></li>
+            <li><a href="#" onClick={() => showSection('educación')} className="text-white hover:underline">Educación</a></li>
           </ul>
         </nav>
       </header>
@@ -279,6 +280,82 @@ export default function Home() {
 
         </div>
       )}
+      {/* Sección Educación */}
+      {activeSection === 'educación' && (
+        <div className="mt-6">
+          <h2 className="text-2xl font-bold">Educación</h2>
+          <p>Aquí puedes ver material educativo para comprender la información.</p>
+          <ul className="list-disc pl-4 mt-4">
+            <li><strong>PER (Price to Earnings Ratio):</strong> Mide cuántas veces los inversores están dispuestos a pagar por cada unidad de ganancia generada por la empresa.</li>
+            <li><strong>ROI (Return on Investment):</strong> Evalúa la rentabilidad de una inversión.</li>
+            <li><strong>ROA (Return on Assets):</strong> Muestra la eficiencia con la que una empresa utiliza sus activos.</li>
+            <li><strong>ROE (Return on Equity):</strong> Mide la rentabilidad para los accionistas.</li>
+            <li><strong>Market Cap:</strong> Valor total de la empresa en el mercado.</li>
+            <li><strong>Dividend Yield:</strong> Rendimiento anual de los dividendos de una empresa.</li>
+            <li><strong>EPS (Earnings Per Share):</strong> Ganancia por cada acción de la empresa.</li>
+            <li><strong>Price to Book (P/B Ratio):</strong> Compara el precio de mercado con el valor en libros.</li>
+            <li><strong>Beta:</strong> Mide la volatilidad de una acción en comparación con el mercado.</li>
+          </ul>
+
+          {/* Sección de Videos Educacionales */}
+          <h3 className="text-xl font-semibold mt-8">Videos Educacionales</h3>
+          <p>Aprende más sobre conceptos financieros y análisis de acciones con los siguientes videos:</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+            {/* Video 1 */}
+            <div className="aspect-w-16 aspect-h-9">
+              <iframe
+                src="https://www.youtube.com/embed/cd0_5Y1O-wU"
+                title="DOLLAR COST AVERAGING (Qué es y cómo funciona esta estrategia de inversión)"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
+            {/* Video 2 */}
+            <div className="aspect-w-16 aspect-h-9">
+              <iframe
+                src="https://www.youtube.com/embed/odPxByt8e84"
+                title="¿Qué es el Análisis Fundamental? Introducción al Análisis Fundamental de acciones"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
+            {/* Video 3 */}
+            <div className="aspect-w-16 aspect-h-9">
+              <iframe
+                src="https://www.youtube.com/embed/UPvQVJVwVBg"
+                title="Ratios de Rentabilidad: ROE y ROA | ​Explicación, Interpretación y Análisis"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
+
+          {/* Sección de Libros Recomendados */}
+          <h3 className="text-xl font-semibold mt-8">Libros Recomendados</h3>
+          <ul className="list-disc pl-4 mt-4">
+            <li>
+              <strong>El inversor inteligente</strong> de Benjamin Graham: Considerado uno de los mejores libros sobre inversión, ofrece principios de inversión que han resistido la prueba del tiempo.
+              <a href="https://www.amazon.com/dp/0060555661" target="_blank" rel="noopener noreferrer" className="text-blue-500"> (Ver en Amazon)</a>
+            </li>
+            <li>
+              <strong>Un paseo aleatorio por Wall Street</strong> de Burton Malkiel: Un análisis accesible sobre la inversión en acciones y cómo funcionan los mercados.
+              <a href="https://www.amazon.com/dp/0393352242" target="_blank" rel="noopener noreferrer" className="text-blue-500"> (Ver en Amazon)</a>
+            </li>
+            <li>
+              <strong>Los secretos de la mente millonaria</strong> de T. Harv Eker: Explora la psicología del dinero y cómo nuestras creencias afectan nuestra capacidad de generar riqueza.
+              <a href="https://www.amazon.com/dp/1682990483" target="_blank" rel="noopener noreferrer" className="text-blue-500"> (Ver en Amazon)</a>
+            </li>
+            <li>
+              <strong>La bolsa o la vida</strong> de Joe Dominguez y Vicki Robin: Un enfoque sobre la relación entre el dinero y la vida, y cómo gestionar mejor nuestras finanzas.
+              <a href="https://www.amazon.com/dp/0143115766" target="_blank" rel="noopener noreferrer" className="text-blue-500"> (Ver en Amazon)</a>
+            </li>
+          </ul>
+        </div>
+      )}
+
 
     </div>
   );
