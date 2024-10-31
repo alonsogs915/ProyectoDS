@@ -111,7 +111,7 @@ export default function Home() {
 
         <div className="mt-6">
           <h2 className="text-2xl font-bold">Bienvenido a Financial Analyst</h2>
-          <p>Aquí puedes buscar información sobre acciones y ver las métricas más importantes.</p>
+          <p>Aquí puedes buscar información sobre acciones, ver sus métricas más importantes y aprender como invertir.</p>
           <p>Para empezar, utiliza nuestro <strong>Buscador de Acciones</strong> y escribe el símbolo (ticker) de la acción que te interese. Por ejemplo:</p>
           <ul className="list-disc ml-6 mt-2 text-white">
             <li><strong>AAPL</strong> para Apple Inc.</li>
@@ -120,12 +120,14 @@ export default function Home() {
             <li><strong>TSLA</strong> para Tesla.</li>
           </ul>
           <p className="mt-4">Luego, te mostraremos las métricas financieras clave de esa acción, incluyendo su precio actual, variaciones diarias, rendimiento de dividendos, entre otros. Además, podrás ver las últimas noticias relacionadas con la empresa.</p>
+
+          <p className="mt-4"> Si quieres aprender mas acerca del tema, ve a la sección <strong> Educación</strong> en donde encontraras explicaciones y videos. </p>
         </div>
 
 
         <div className="mt-6">
           <h3 className="text-2xl font-bold">Lista de acciones del Mercado</h3>
-          <p>Visualiza algunos de los acciones más recientes en el mercado:</p>
+          <p>Visualiza algunas de las acciones más recientes en el mercado:</p>
 
           {loading ? (
             <p>Cargando datos...</p>
