@@ -128,7 +128,7 @@ export default function Home() {
             <h3 className="text-2xl font-bold">{language === 'es' ? `Configuración del Usuario` : `User Configuration`}</h3>
             <form onSubmit={(e) => e.preventDefault()} className="mt-4">
               <label className="block mb-2">
-                Nombre:
+              {language === 'es' ? `Nombre:` : `Name:`}
                 <input
                   type="text"
                   value={userName}
@@ -137,7 +137,7 @@ export default function Home() {
                 />
               </label>
               <label className="block mb-4">
-                Idioma:
+              {language === 'es' ? `Idioma:` : `Languaje:`}
                 <select
                   value={language}
                   onChange={(e) => setLanguage(e.target.value)}
