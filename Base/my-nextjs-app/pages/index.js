@@ -8,11 +8,15 @@ export default function Home() {
   const [marketData, setMarketData] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // Estados para el nombre del usuario y el idioma preferido
+  const [userName, setUserName] = useState('');
+  const [language, setLanguage] = useState('es'); // 'es' para español, 'en' para inglés
+
   // Lista de tickers variados
   const tickers = ['', ''];
 
   const fetchStockMetrics = async (e) => {
-    e.preventDefault(); // Evitar el comportamiento por defecto del formulario
+    e.preventDefault();
     setError('');
     setStockData(null);
 
@@ -31,35 +35,47 @@ export default function Home() {
         setStockData(data);
       }
     } catch (error) {
-      setError('Error al obtener los datos.');
+      setError(language === 'es' ? `Error al obtener los datos` : `Error while getting data`);
     }
   };
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      fetchStockMetrics(e); // Ejecutar la búsqueda cuando se presiona "Enter"
+      fetchStockMetrics(e);
     }
   };
 
   const showSection = (section) => {
-    setActiveSection(section); // Cambiar la sección activa
+    setActiveSection(section);
   };
 
-  // Llamada a la API para obtener los tickers variados
+  useEffect(() => {
+    const savedName = localStorage.getItem('userName');
+    const savedLanguage = localStorage.getItem('language');
+    if (savedName) setUserName(savedName);
+    if (savedLanguage) setLanguage(savedLanguage);
+  }, []);
+
+  const savePreferences = () => {
+    localStorage.setItem('userName', userName);
+    localStorage.setItem('language', language);
+    alert(language === 'es' ? `Preferencias Guardadas` : `Saved preferences`);
+  };
+
+ // Llamada a la API para obtener los tickers variados
   useEffect(() => {
     const fetchMarketData = async () => {
       setLoading(true);
       setError('');
       let allData = [];
-
+      // Iteramos sobre los tickers para hacer una solicitud para cada uno
       try {
-        // Iteramos sobre los tickers para hacer una solicitud para cada uno
         for (let i = 0; i < tickers.length; i++) {
           const response = await fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${tickers[i]}&interval=5min&apikey= QR08W8WREXX9BA0P`);
           const data = await response.json();
 
           if (!data['Error Message'] && data['Time Series (5min)']) {
-            const latestData = Object.entries(data['Time Series (5min)'])[0]; // Tomamos el último dato disponible
+            const latestData = Object.entries(data['Time Series (5min)'])[0];
             const [date, values] = latestData;
 
             allData.push({
@@ -73,14 +89,14 @@ export default function Home() {
 
         setMarketData(allData);
       } catch (error) {
-        setError('Error al conectar con la API.');
+        setError(language === 'es' ? `Error al conectar con la API.` : `Error connecting to the API.`);
       } finally {
         setLoading(false);
       }
     };
 
     fetchMarketData();
-  }, []); // Ejecutar solo una vez al montar el componente
+  }, []);
 
   return (
     <div className="container mx-auto p-4">
@@ -93,44 +109,75 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Barra de navegación */}
         <nav className="mt-4">
           <ul className="flex space-x-4 bg-gray-700 p-2 rounded">
-            <li><a href="#" onClick={() => showSection('inicio')} className="text-white hover:underline">Inicio</a></li>
-            <li><a href="#" onClick={() => showSection('Buscador de Acciones')} className="text-white hover:underline">Buscador de Acciones</a></li>
-            <li><a href="#" onClick={() => showSection('noticias')} className="text-white hover:underline">Noticias</a></li>
-            <li><a href="#" onClick={() => showSection('contacto')} className="text-white hover:underline">Contacto</a></li>
-            <li><a href="#" onClick={() => showSection('educación')} className="text-white hover:underline">Educación</a></li>
+            <li><a href="#" onClick={() => showSection('inicio')} className="text-white hover:underline">{language === 'es' ? `Inicio` : `Home`}</a></li>
+            <li><a href="#" onClick={() => showSection('Buscador de Acciones')} className="text-white hover:underline">{language === 'es' ? `Buscador de Acciones` : `Stock Finder`}</a></li>
+            <li><a href="#" onClick={() => showSection('noticias')} className="text-white hover:underline">{language === 'es' ? `Noticias` : `News`}</a></li>
+            <li><a href="#" onClick={() => showSection('contacto')} className="text-white hover:underline">{language === 'es' ? `Contactanos` : `Contact Us`}</a></li>
+            <li><a href="#" onClick={() => showSection('educación')} className="text-white hover:underline">{language === 'es' ? `Educación` : `Education`}</a></li>
           </ul>
         </nav>
       </header>
 
-      {/* Sección Inicio */}
       {activeSection === 'inicio' && (
         <>
 
-        <div className="mt-6">
-          <h2 className="text-2xl font-bold">Bienvenido a Financial Analyst</h2>
-          <p>Aquí puedes buscar información sobre acciones, ver sus métricas más importantes y aprender como invertir.</p>
-          <p>Para empezar, utiliza nuestro <strong>Buscador de Acciones</strong> y escribe el símbolo (ticker) de la acción que te interese. Por ejemplo:</p>
+
+          <div className="mt-6">
+            <h3 className="text-2xl font-bold">{language === 'es' ? `Configuración del Usuario` : `User Configuration`}</h3>
+            <form onSubmit={(e) => e.preventDefault()} className="mt-4">
+              <label className="block mb-2">
+                Nombre:
+                <input
+                  type="text"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                  className="border px-2 py-1 mt-1 ml-2 rounded text-black" 
+                />
+              </label>
+              <label className="block mb-4">
+                Idioma:
+                <select
+                  value={language}
+                  onChange={(e) => setLanguage(e.target.value)}
+                  className="border px-2 py-1 mt-1 ml-4 rounded text-black"
+                >
+                  <option value="es"> {language === 'es' ? `Español` : `Spanish`}</option>
+                  <option value="en">{language === 'es' ? `Ingles` : `English`}</option>
+                </select>
+              </label>
+              <button
+                onClick={savePreferences}
+                className="bg-blue-500 text-white px-4 py-2 rounded"
+              >
+                {language === 'es' ? `Guardar Preferencias` : `Save Preferences`}
+              </button>
+            </form>
+          </div>
+
+          <div className="mt-6">
+            <h2 className="text-3xl font-bold"> {language === 'es' ? `Bienvenido a Financial Analyst ${userName}!` : `Welcome to Financial Analyst ${userName}!`} </h2>
+            <p className='mt-4'> {language === 'es' ? `Aquí puedes buscar información sobre acciones, ver sus métricas más importantes y aprender como invertir.` : `Here you can search for information about stocks, see their most important metrics and learn how to invest.`}</p>
+
+            <p className="mt-2"> {language === 'es' ? `Para empezar, utiliza nuestro Buscador de Acciones y escribe el símbolo (ticker) de la acción que te interese. Por ejemplo:` : `To get started, use our Stock Finder and write the symbol (ticker) of the stock that interests you. For example:`}</p>
           <ul className="list-disc ml-6 mt-2 text-white">
-            <li><strong>AAPL</strong> para Apple Inc.</li>
-            <li><strong>GOOGL</strong> para Alphabet (Google).</li>
-            <li><strong>AMZN</strong> para Amazon.</li>
-            <li><strong>TSLA</strong> para Tesla.</li>
+            <li><strong>AAPL</strong> {language === 'es' ? `Para Apple Inc.` : `For Apple Inc.`}</li>
+            <li><strong>GOOGL</strong> {language === 'es' ? `Para Alphabet (Google)` : `For Alphabet (Google)`} .</li>
+            <li><strong>AMZN</strong> {language === 'es' ? `Para Amazon` : `For Amazon`} </li>
+            <li><strong>TSLA</strong> {language === 'es' ? `Para Tesla` : `For Tesla`} </li>
           </ul>
-          <p className="mt-4">Luego, te mostraremos las métricas financieras clave de esa acción, incluyendo su precio actual, variaciones diarias, rendimiento de dividendos, entre otros. Además, podrás ver las últimas noticias relacionadas con la empresa.</p>
+          <p className="mt-4"> {language === 'es' ? `Luego, te mostraremos las métricas financieras clave de esa acción, incluyendo su precio actual, variaciones diarias, rendimiento de dividendos, entre otros. Además, podrás ver las últimas noticias relacionadas con la empresa.` : `Then, we'll show you the most important financial metrics for that stock, including its current price, daily changes, dividend yield, and more. In addition, you will be able to see the latest news related to the company.`}</p>
 
-          <p className="mt-4"> Si quieres aprender mas acerca del tema, ve a la sección <strong> Educación</strong> en donde encontraras explicaciones y videos. </p>
-        </div>
+          <p className="mt-4"> {language === 'es' ? `Si quieres aprender mas acerca del tema, ve a la sección <strong> Educación</strong> en donde encontraras explicaciones y videos.` : `If you want to learn more about the topic, go to the Education section where you will find explanations and videos.`} </p>
 
-
-        <div className="mt-6">
-          <h3 className="text-2xl font-bold">Lista de acciones del Mercado</h3>
-          <p>Visualiza algunas de las acciones más recientes en el mercado:</p>
+          </div>
+          <div className="mt-6">
+          <h3 className="text-2xl font-bold">{language === 'es' ? `Lista de acciones del Mercado` : `Market Stock List`}</h3>
+          <p> {language === 'es' ? `Visualiza algunas de las acciones más recientes en el mercado:` : `View some of the most recent actions on the market:`}</p>
 
           {loading ? (
-            <p>Cargando datos...</p>
+            <p> {language === 'es' ? `Cargando datos...` : `Loading data...`}</p>
           ) : error ? (
             <p className="text-red-500">{error}</p>
           ) : (
@@ -138,10 +185,10 @@ export default function Home() {
               <table className="min-w-full bg-gray-800 text-white">
                 <thead>
                   <tr>
-                    <th className="py-2 px-4 text-left">Ticker</th>
-                    <th className="py-2 px-4 text-left">Último</th>
-                    <th className="py-2 px-4 text-left">Cambio</th>
-                    <th className="py-2 px-4 text-left">Volumen</th>
+                    <th className="py-2 px-4 text-left"> {language === 'es' ? `Ticker` : `Ticker`}</th>
+                    <th className="py-2 px-4 text-left"> {language === 'es' ? `Último` : `Last`}</th>
+                    <th className="py-2 px-4 text-left"> {language === 'es' ? `Cambio` : `Change`}</th>
+                    <th className="py-2 px-4 text-left"> {language === 'es' ? `Volumen` : `Volume`}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -163,7 +210,7 @@ export default function Home() {
         </>
       )}
 
-      {/* Sección Mercados */}
+      {/* Sección Buscador de Acciones, otras secciones... */}
       {activeSection === 'Buscador de Acciones' && (
         <div>
           {/* Formulario de búsqueda */}
@@ -282,6 +329,7 @@ export default function Home() {
 
         </div>
       )}
+      
       {/* Sección Educación */}
       {activeSection === 'educación' && (
         <div className="mt-6">
