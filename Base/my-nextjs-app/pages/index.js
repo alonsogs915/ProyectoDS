@@ -402,6 +402,14 @@ export default function Home() {
               <strong>La bolsa o la vida</strong> de Joe Dominguez y Vicki Robin: Un enfoque sobre la relación entre el dinero y la vida, y cómo gestionar mejor nuestras finanzas.
               <a href="https://www.amazon.com/dp/0143115766" target="_blank" rel="noopener noreferrer" className="text-blue-500"> (Ver en Amazon)</a>
             </li>
+            <li>
+              <strong>Buffettologia</strong> de Mary Buffett:  Este libro explica con múltiples ejemplos reales las técnicas que utiliza Warren Buffett, el inversor que ha convertido 105.000 dólares en 20 billones de dólares.
+              <a href="https://www.amazon.com/-/es/Mary-Buffett/dp/8480885505" target="_blank" rel="noopener noreferrer" className="text-blue-500"> (Ver en Amazon)</a>
+            </li>
+            <li>
+              <strong>Trading en la zona</strong> de Mark Douglas: Para Douglas, maximizar una actitud mental adecuada es clave para conseguir buenos resultados y resulta ser mucho más importante que los análisis de mercados o los diversos sistemas que se ponen de moda periódicamente.
+              <a href="https://www.amazon.com/-/es/Trading-en-zona-Mark-Douglas/dp/8493622664" target="_blank" rel="noopener noreferrer" className="text-blue-500"> (Ver en Amazon)</a>
+            </li>
           </ul>
         </div>
       )}
