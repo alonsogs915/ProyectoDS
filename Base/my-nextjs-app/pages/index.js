@@ -296,8 +296,8 @@ export default function Home() {
       {/* Sección Noticias */}
       {activeSection === 'noticias' && (
         <div className="mt-6">
-          <h2 className="text-2xl font-bold">Últimas Noticias</h2>
-          <p>Aquí puedes ver las noticias recientes relacionadas con los mercados financieros.</p>
+          <h2 className="text-2xl font-bold"> {language === 'es' ? `Últimas Noticias` : `Latest News`}</h2>
+          <p> {language === 'es' ? `Aquí puedes ver las noticias recientes relacionadas con los mercados financieros.` : `Here you can see the recent news related to the financial markets.`} </p>
         </div>
       )}
 
