@@ -7,6 +7,14 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState('inicio');
   const [marketData, setMarketData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [newComment, setNewComment] = useState("");
+  const [comments, setComments] = useState([]);
+
+function handleAddComment(event) {
+  event.preventDefault();
+  setComments([...comments, newComment]);
+  setNewComment(""); // Limpia el campo después de agregar el comentario
+}
 
   // Estados para el nombre del usuario y el idioma preferido
   const [userName, setUserName] = useState('');
@@ -116,6 +124,7 @@ export default function Home() {
             <li><a href="#" onClick={() => showSection('noticias')} className="text-white hover:underline">{language === 'es' ? `Noticias` : `News`}</a></li>
             <li><a href="#" onClick={() => showSection('contacto')} className="text-white hover:underline">{language === 'es' ? `Contactanos` : `Contact Us`}</a></li>
             <li><a href="#" onClick={() => showSection('educación')} className="text-white hover:underline">{language === 'es' ? `Educación` : `Education`}</a></li>
+            <li><a href="#" onClick={() => showSection('comunidad')} className="text-white hover:underline">{language === 'es' ? `Comunidad` : `Community`}</a></li>
           </ul>
         </nav>
       </header>
@@ -413,6 +422,42 @@ export default function Home() {
           </ul>
         </div>
       )}
+
+
+            {/* Sección Comunidad */}
+            {activeSection === 'comunidad' && (
+        <div className="mt-8 bg-white p-6 rounded-md shadow-sm">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Comunidad</h2>
+          <p className="text-gray-700 mb-4">Comparte tus opiniones y comentarios con la comunidad.</p>
+
+          {/* Formulario de Comentarios */}
+          <form onSubmit={handleAddComment} className="mb-6">
+            <textarea
+              className="w-full p-3 border border-gray-300 rounded-md mb-4 text-black"
+              placeholder="Escribe tu comentario aquí..."
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              required
+            ></textarea>
+            <button
+              type="submit"
+              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-200"
+            >
+              Agregar Comentario
+            </button>
+          </form>          
+
+          {/* Lista de Comentarios */}
+          <div className="space-y-4">
+            {comments.map((comment, index) => (
+              <div key={index} className="p-4 border border-gray-200 rounded-md">
+                <p className="text-gray-800">{comment}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
 
 
     </div>
