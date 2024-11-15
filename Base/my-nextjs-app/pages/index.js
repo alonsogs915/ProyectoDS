@@ -227,7 +227,7 @@ function handleAddComment(event) {
             <div className="relative flex-grow">
               <input
                 type="text"
-                placeholder="Buscar símbolo"
+                placeholder= {language === 'es' ? `Buscar símbolo` : `Search symbol`}
                 className="p-2 pl-10 text-sm rounded bg-gray-700 text-white focus:outline-none focus:ring focus:ring-gray-600 w-full"
                 onChange={(e) => setSymbol(e.target.value)}
                 onKeyDown={handleKeyPress} // Llamar la función cuando se presione "Enter"
@@ -249,7 +249,7 @@ function handleAddComment(event) {
             </div>
 
             <button type="submit" className="ml-2 bg-blue-500 text-white p-2 rounded">
-              Buscar
+            {language === 'es' ? `Buscar` : `Search`}
             </button>
           </form>
 
@@ -269,32 +269,32 @@ function handleAddComment(event) {
           {stockData && (
             <div className="bg-gray-800 p-4 rounded shadow mb-4">
               <h2 className="text-xl font-bold mb-3">{stockData.name} ({stockData.symbol})</h2>
-              <p className="mb-1 bg-gray-700">PER: {stockData.PER || 'No disponible'}</p>
-              <p className="mb-1 bg-gray-600">Beta: {stockData.beta || 'No disponible'}</p>
-              <p className="mb-1 bg-gray-700">Rendimiento de dividendos: {stockData.dividendYield || 'No disponible'}</p>
-              <p className="mb-1 bg-gray-600">Relación de pago de dividendos: {stockData.dividendPayoutRatio || 'No disponible'}</p>
-              <p className="mb-1 bg-gray-700">Relación Deuda/Capital: {stockData.debtToEquityRatio || 'No disponible' }</p>
-              <p className="mb-1 bg-gray-600">Relación Precio/Ventas: {stockData.priceToSales || 'No disponible'}</p>
-              <p className="mb-1 bg-gray-700">Flujo de efectivo por acción: {stockData.cashFlowPerShare || 'No disponible'}</p>
-              <p className="mb-1 bg-gray-600">ROI: {stockData.ROI || 'No disponible'}</p>
-              <p className="mb-1 bg-gray-700">ROE: {stockData.ROE || 'No disponible'}</p>
-              <p className="mb-1 bg-gray-600">ROA: {stockData.ROA || 'No disponible'}</p>
-              <p className="mb-1 bg-gray-700">Capitalización de mercado: {stockData.marketCap || 'No disponible'}</p>
-              <p className="mb-1 bg-gray-600">EPS: {stockData.eps || 'No disponible'}</p>
-              <p className="mb-1 bg-gray-700">Relación Precio/Valor Contable: {stockData.priceToBook || 'No disponible'}</p>
-              <p className="mb-1 bg-gray-600">Máximo 52 semanas: {stockData.weekHigh52 || 'No disponible'}</p>
-              <p className="mb-1 bg-gray-700">Mínimo 52 semanas: {stockData.weekLow52 || 'No disponible'}</p>
+              <p className="mb-1 bg-gray-700">PER: {stockData.PER || language === 'es' ? `No disponible` : `Not available`}</p>
+              <p className="mb-1 bg-gray-600">Beta: {stockData.beta || language === 'es' ? `No disponible` : `Not available`}</p>
+              <p className="mb-1 bg-gray-700"> {language === 'es' ? `Rendimiento de dividendos:` : `Dividend yield:`} {stockData.dividendYield || language === 'es' ? `No disponible` : `Not available`}</p>
+              <p className="mb-1 bg-gray-600"> {language === 'es' ? `Relación de pago de dividendos:` : `Dividend payout ratio:`} {stockData.dividendPayoutRatio || language === 'es' ? `No disponible` : `Not available`}</p>
+              <p className="mb-1 bg-gray-700"> {language === 'es' ? `Relación Deuda/Capital: ` : `Debt/Equity Ratio:`} {stockData.debtToEquityRatio || language === 'es' ? `No disponible` : `Not available` }</p>
+              <p className="mb-1 bg-gray-600"> {language === 'es' ? `Relación Precio/Ventas:` : `Price/Sales Ratio:`}  {stockData.priceToSales || language === 'es' ? `No disponible` : `Not available`}</p>
+              <p className="mb-1 bg-gray-700"> {language === 'es' ? `Flujo de efectivo por acción:` : `Cash flow per share:`}  {stockData.cashFlowPerShare || language === 'es' ? `No disponible` : `Not available`}</p>
+              <p className="mb-1 bg-gray-600">ROI: {stockData.ROI || language === 'es' ? `No disponible` : `Not available`}</p>
+              <p className="mb-1 bg-gray-700">ROE: {stockData.ROE || language === 'es' ? `No disponible` : `Not available`}</p>
+              <p className="mb-1 bg-gray-600">ROA: {stockData.ROA || language === 'es' ? `No disponible` : `Not available`}</p>
+              <p className="mb-1 bg-gray-700"> {language === 'es' ? `Capitalización de mercado: ` : `Market capitalization:`} {stockData.marketCap || language === 'es' ? `No disponible` : `Not available`}</p>
+              <p className="mb-1 bg-gray-600">EPS: {stockData.eps || language === 'es' ? `No disponible` : `Not available`}</p>
+              <p className="mb-1 bg-gray-700"> {language === 'es' ? `Relación Precio/Valor Contable:` : `Price/Book Value Relationship:`}  {stockData.priceToBook || language === 'es' ? `No disponible` : `Not available`}</p>
+              <p className="mb-1 bg-gray-600"> {language === 'es' ? `Máximo 52 semanas:` : `Maximum 52 weeks:`} {stockData.weekHigh52 || language === 'es' ? `No disponible` : `Not available`}</p>
+              <p className="mb-1 bg-gray-700"> {language === 'es' ? `Mínimo 52 semanas:` : `Minimum 52 weeks:`}  {stockData.weekLow52 || language === 'es' ? `No disponible` : `Not available`}</p>
             </div>
           )}
 
           {stockData && stockData.news && (
             <div className="bg-gray-800 p-4 rounded shadow">
-              <h2 className="text-xl font-bold mb-2">Últimas Noticias</h2>
+              <h2 className="text-xl font-bold mb-2"> {language === 'es' ? `Últimas Noticias` : `Latest News`} </h2>
               {stockData.news.map((article, index) => (
                 <div key={index} className="mb-2 bg-gray-700">
                   <h3 className="font-bold">{article.title}</h3>
                   <p>{article.description}</p>
-                  <a href={article.url} target="_blank" rel="noopener noreferrer" className="text-blue-500">Leer más</a>
+                  <a href={article.url} target="_blank" rel="noopener noreferrer" className="text-blue-500"> {language === 'es' ? `Leer más` : `Show more`}</a>
                 </div>
               ))}
             </div>
@@ -313,27 +313,27 @@ function handleAddComment(event) {
       {/* Sección Contacto */}
       {activeSection === 'contacto' && (
         <div className="mt-6">
-          <h2 className="text-2xl font-bold">Contacto</h2>
-          <p>Puedes ponerte en contacto con nosotros para más información o preguntas sobre nuestra plataforma.</p>
-          <p className="mt-4">
-            Nombre: Benjamín Fernández
+          <h2 className="text-2xl font-bold"> {language === 'es' ? `Contacto` : `Contact`} </h2>
+          <p> {language === 'es' ? `Puedes ponerte en contacto con nosotros para más información o preguntas sobre nuestra plataforma.` : `You can contact us for more information or questions about our platform.`} </p>
+          <p className="mt-4"> {language === 'es' ? `Nombre: Benjamín Fernández` : `Name: Benjamín Fernández`}
+
           </p>
-          <p>
-            Correo electrónico: <a href="mailto:benfernandez@alumnos.uai.cl" className="text-blue-500 underline">benfernandez@alumnos.uai.cl</a>
+          <p> {language === 'es' ? `Correo electrónico: ` : `Email: `} 
+            <a href="mailto:benfernandez@alumnos.uai.cl" className="text-blue-500 underline">benfernandez@alumnos.uai.cl</a>
           </p>
 
-          <p className="mt-4">
-            Nombre: Alonso Gil
+          <p className="mt-4"> {language === 'es' ? `Nombre: Alonso Gil ` : `Name: Alonso Gil`}
+            
           </p>
-          <p>
-            Correo electrónico: <a href="mailto:algil@alumnos.uai.cl" className="text-blue-500 underline">algil@alumnos.uai.cl</a>
+          <p> {language === 'es' ? `Correo electrónico: ` : `Email: `} 
+            <a href="mailto:algil@alumnos.uai.cl" className="text-blue-500 underline">algil@alumnos.uai.cl</a>
           </p>
 
-          <p className="mt-4">
-            Nombre: Fabián Villalobos 
+          <p className="mt-4"> {language === 'es' ? `Nombre: Fabián Villalobos ` : `Name: Fabián Villalobos `}
+          
           </p>
-          <p>
-            Correo electrónico: <a href="mailto:favillalobos@alumnos.uai.cll" className="text-blue-500 underline">favillalobos@alumnos.uai.cl</a>
+          <p> {language === 'es' ? `Correo electrónico: ` : `Email: `} 
+            <a href="mailto:favillalobos@alumnos.uai.cll" className="text-blue-500 underline">favillalobos@alumnos.uai.cl</a>
           </p>
 
         </div>
@@ -342,23 +342,23 @@ function handleAddComment(event) {
       {/* Sección Educación */}
       {activeSection === 'educación' && (
         <div className="mt-6">
-          <h2 className="text-2xl font-bold">Educación</h2>
-          <p>Aquí puedes ver material educativo para comprender la información.</p>
+          <h2 className="text-2xl font-bold"> {language === 'es' ? `Educación ` : `Education `}</h2>
+          <p> {language === 'es' ? `Aquí puedes ver material educativo para comprender la información.` : `Here you can see educational material to understand the information.`}</p>
           <ul className="list-disc pl-4 mt-4">
-            <li><strong>PER (Price to Earnings Ratio):</strong> Mide cuántas veces los inversores están dispuestos a pagar por cada unidad de ganancia generada por la empresa.</li>
-            <li><strong>ROI (Return on Investment):</strong> Evalúa la rentabilidad de una inversión.</li>
-            <li><strong>ROA (Return on Assets):</strong> Muestra la eficiencia con la que una empresa utiliza sus activos.</li>
-            <li><strong>ROE (Return on Equity):</strong> Mide la rentabilidad para los accionistas.</li>
-            <li><strong>Market Cap:</strong> Valor total de la empresa en el mercado.</li>
-            <li><strong>Dividend Yield:</strong> Rendimiento anual de los dividendos de una empresa.</li>
-            <li><strong>EPS (Earnings Per Share):</strong> Ganancia por cada acción de la empresa.</li>
-            <li><strong>Price to Book (P/B Ratio):</strong> Compara el precio de mercado con el valor en libros.</li>
-            <li><strong>Beta:</strong> Mide la volatilidad de una acción en comparación con el mercado.</li>
+            <li><strong>PER (Price to Earnings Ratio):</strong> {language === 'es' ? `Mide cuántas veces los inversores están dispuestos a pagar por cada unidad de ganancia generada por la empresa. ` : `It measures how many times investors are willing to pay for each unit of profit generated by the company. `} </li>
+            <li><strong>ROI (Return on Investment):</strong> {language === 'es' ? `Evalúa la rentabilidad de una inversión.` : `Evaluate the profitability of an investment.`} </li>
+            <li><strong>ROA (Return on Assets):</strong> {language === 'es' ? `Muestra la eficiencia con la que una empresa utiliza sus activos.` : `It shows how efficiently a company uses its assets.`} </li>
+            <li><strong>ROE (Return on Equity):</strong> {language === 'es' ? `Mide la rentabilidad para los accionistas.` : `Measures profitability for shareholders.`} </li>
+            <li><strong>Market Cap:</strong> {language === 'es' ? `Valor total de la empresa en el mercado.` : `Total value of the company in the market. `} </li>
+            <li><strong>Dividend Yield:</strong> {language === 'es' ? `Rendimiento anual de los dividendos de una empresa.` : `Annual dividend yield of a company. `} </li>
+            <li><strong>EPS (Earnings Per Share):</strong> {language === 'es' ? `Ganancia por cada acción de la empresa. ` : `Earnings for each share of the company.`} </li>
+            <li><strong>Price to Book (P/B Ratio):</strong> {language === 'es' ? `Compara el precio de mercado con el valor en libros.` : `Compare the market price to the book value.`} </li>
+            <li><strong>Beta:</strong> {language === 'es' ? `Mide la volatilidad de una acción en comparación con el mercado.` : `Measures the volatility of a stock compared to the market.`} </li>
           </ul>
 
           {/* Sección de Videos Educacionales */}
-          <h3 className="text-xl font-semibold mt-8">Videos Educacionales</h3>
-          <p>Aprende más sobre conceptos financieros y análisis de acciones con los siguientes videos:</p>
+          <h3 className="text-xl font-semibold mt-8"> {language === 'es' ? `Videos Educacionales ` : `Educational Videos `} </h3>
+          <p> {language === 'es' ? `Aprende más sobre conceptos financieros y análisis de acciones con los siguientes videos: ` : `Learn more about financial concepts and stock analysis with the following videos: `} </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
             {/* Video 1 */}
             <div className="aspect-w-16 aspect-h-9">
@@ -393,31 +393,31 @@ function handleAddComment(event) {
           </div>
 
           {/* Sección de Libros Recomendados */}
-          <h3 className="text-xl font-semibold mt-8">Libros Recomendados</h3>
+          <h3 className="text-xl font-semibold mt-8"> {language === 'es' ? `Libros Recomendados ` : `Recommended Books `}</h3>
           <ul className="list-disc pl-4 mt-4">
             <li>
-              <strong>El inversor inteligente</strong> de Benjamin Graham: Considerado uno de los mejores libros sobre inversión, ofrece principios de inversión que han resistido la prueba del tiempo.
-              <a href="https://www.amazon.com/dp/0060555661" target="_blank" rel="noopener noreferrer" className="text-blue-500"> (Ver en Amazon)</a>
+              <strong> {language === 'es' ? `El Inversor Inteligente ` : `The Intelligent Investor `}</strong> {language === 'es' ? `de Benjamin Graham: Considerado uno de los mejores libros sobre inversión, ofrece principios de inversión que han resistido la prueba del tiempo. ` : `by Benjamin Graham: Considered one of the best books on investing, it offers investing principles that have stood the test of time. `} 
+              <a href="https://www.amazon.com/dp/0060555661" target="_blank" rel="noopener noreferrer" className="text-blue-500"> ( {language === 'es' ? `Ver en Amazon` : `See on Amazon`} )</a>
             </li>
             <li>
-              <strong>Un paseo aleatorio por Wall Street</strong> de Burton Malkiel: Un análisis accesible sobre la inversión en acciones y cómo funcionan los mercados.
-              <a href="https://www.amazon.com/dp/0393352242" target="_blank" rel="noopener noreferrer" className="text-blue-500"> (Ver en Amazon)</a>
+              <strong> {language === 'es' ? `Un paseo aleatorio por Wall Street ` : `A Random Walk down Wall Street `} </strong> {language === 'es' ? `de Burton Malkiel: Un análisis accesible sobre la inversión en acciones y cómo funcionan los mercados. ` : `by Burton Malkiel: An accessible analysis of investing in stocks and how markets work.`} 
+              <a href="https://www.amazon.com/dp/0393352242" target="_blank" rel="noopener noreferrer" className="text-blue-500"> ( {language === 'es' ? `Ver en Amazon` : `See on Amazon`} )</a>
             </li>
             <li>
-              <strong>Los secretos de la mente millonaria</strong> de T. Harv Eker: Explora la psicología del dinero y cómo nuestras creencias afectan nuestra capacidad de generar riqueza.
-              <a href="https://www.amazon.com/dp/1682990483" target="_blank" rel="noopener noreferrer" className="text-blue-500"> (Ver en Amazon)</a>
+              <strong> {language === 'es' ? `Los secretos de la mente millonaria ` : `The Secrets of the Millionaire Mind`} </strong> {language === 'es' ? `de T. Harv Eker: Explora la psicología del dinero y cómo nuestras creencias afectan nuestra capacidad de generar riqueza.` : `by T. Harv Eker: Explores the psychology of money and how our beliefs affect our ability to generate wealth. `} 
+              <a href="https://www.amazon.com/dp/1682990483" target="_blank" rel="noopener noreferrer" className="text-blue-500"> ( {language === 'es' ? `Ver en Amazon` : `See on Amazon`} )</a>
             </li>
             <li>
-              <strong>La bolsa o la vida</strong> de Joe Dominguez y Vicki Robin: Un enfoque sobre la relación entre el dinero y la vida, y cómo gestionar mejor nuestras finanzas.
-              <a href="https://www.amazon.com/dp/0143115766" target="_blank" rel="noopener noreferrer" className="text-blue-500"> (Ver en Amazon)</a>
+              <strong> {language === 'es' ? `La bolsa o la vida ` : `Your Money or Your Life `} </strong> {language === 'es' ? `de Joe Dominguez y Vicki Robin: Un enfoque sobre la relación entre el dinero y la vida, y cómo gestionar mejor nuestras finanzas.` : `by Joe Dominguez and Vicki Robin: A focus on the relationship between money and life, and how to better manage our finances.`}  
+              <a href="https://www.amazon.com/dp/0143115766" target="_blank" rel="noopener noreferrer" className="text-blue-500"> ({language === 'es' ? `Ver en Amazon` : `See on Amazon`})</a>
             </li>
             <li>
-              <strong>Buffettologia</strong> de Mary Buffett:  Este libro explica con múltiples ejemplos reales las técnicas que utiliza Warren Buffett, el inversor que ha convertido 105.000 dólares en 20 billones de dólares.
-              <a href="https://www.amazon.com/-/es/Mary-Buffett/dp/8480885505" target="_blank" rel="noopener noreferrer" className="text-blue-500"> (Ver en Amazon)</a>
+              <strong> {language === 'es' ? `Buffettologia ` : `Buffettology `} </strong> {language === 'es' ? `de Mary Buffett:  Este libro explica con múltiples ejemplos reales las técnicas que utiliza Warren Buffett, el inversor que ha convertido 105.000 dólares en 20 billones de dólares. ` : `by Mary Buffett: This book explains with multiple real examples the techniques used by Warren Buffett, the investor who has turned $105,000 into $20 billion.`} 
+              <a href="https://www.amazon.com/-/es/Mary-Buffett/dp/8480885505" target="_blank" rel="noopener noreferrer" className="text-blue-500"> ({language === 'es' ? `Ver en Amazon` : `See on Amazon`} )</a>
             </li>
             <li>
-              <strong>Trading en la zona</strong> de Mark Douglas: Para Douglas, maximizar una actitud mental adecuada es clave para conseguir buenos resultados y resulta ser mucho más importante que los análisis de mercados o los diversos sistemas que se ponen de moda periódicamente.
-              <a href="https://www.amazon.com/-/es/Trading-en-zona-Mark-Douglas/dp/8493622664" target="_blank" rel="noopener noreferrer" className="text-blue-500"> (Ver en Amazon)</a>
+              <strong>{language === 'es' ? `Trading en la zona ` : `Trading in the area`} </strong> {language === 'es' ? `de Mark Douglas: Para Douglas, maximizar una actitud mental adecuada es clave para conseguir buenos resultados y resulta ser mucho más importante que los análisis de mercados o los diversos sistemas que se ponen de moda periódicamente. ` : `by Mark Douglas: For Douglas, maximizing an appropriate mental attitude is key to achieving good results and turns out to be much more important than market analysis or the various systems that periodically become fashionable. `} 
+              <a href="https://www.amazon.com/-/es/Trading-en-zona-Mark-Douglas/dp/8493622664" target="_blank" rel="noopener noreferrer" className="text-blue-500"> ({language === 'es' ? `Ver en Amazon` : `See on Amazon`})</a>
             </li>
           </ul>
         </div>
@@ -427,14 +427,14 @@ function handleAddComment(event) {
             {/* Sección Comunidad */}
             {activeSection === 'comunidad' && (
         <div className="mt-8 bg-white p-6 rounded-md shadow-sm">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Comunidad</h2>
-          <p className="text-gray-700 mb-4">Comparte tus opiniones y comentarios con la comunidad.</p>
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4"> {language === 'es' ? `Comunidad ` : ` Community `}</h2>
+          <p className="text-gray-700 mb-4"> {language === 'es' ? `Comparte tus opiniones y comentarios con la comunidad. ` : ` Share your opinions and comments with the community. `} </p>
 
           {/* Formulario de Comentarios */}
           <form onSubmit={handleAddComment} className="mb-6">
             <textarea
               className="w-full p-3 border border-gray-300 rounded-md mb-4 text-black"
-              placeholder="Escribe tu comentario aquí..."
+              placeholder= {language === 'es' ? `Escribe tu comentario aquí...` : ` Write your comment here... `} 
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
               required
@@ -443,7 +443,7 @@ function handleAddComment(event) {
               type="submit"
               className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-200"
             >
-              Agregar Comentario
+              {language === 'es' ? `Agregar Comentario` : ` Add Comment `} 
             </button>
           </form>          
 
