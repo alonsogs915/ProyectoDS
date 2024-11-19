@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { getDictionary } from './dictionaries';
 
 export default function Home() {
   const [symbol, setSymbol] = useState('');
@@ -9,6 +10,19 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [newComment, setNewComment] = useState("");
   const [comments, setComments] = useState([]);
+  const [dictionary, setDictionary] = useState({});
+    // Estados para el nombre del usuario y el idioma preferido
+  const [userName, setUserName] = useState('');
+  const [language, setLanguage] = useState('es'); // 'es' para español, 'en' para inglés
+
+  useEffect(() => {
+    const loadDictionary = async () => {
+      const dict = await getDictionary(language);
+      setDictionary(dict);
+    };
+    loadDictionary();
+  }, [language]);
+
 
 function handleAddComment(event) {
   event.preventDefault();
@@ -16,9 +30,7 @@ function handleAddComment(event) {
   setNewComment(""); // Limpia el campo después de agregar el comentario
 }
 
-  // Estados para el nombre del usuario y el idioma preferido
-  const [userName, setUserName] = useState('');
-  const [language, setLanguage] = useState('es'); // 'es' para español, 'en' para inglés
+
 
   // Lista de tickers variados
   const tickers = ['', ''];
@@ -43,7 +55,7 @@ function handleAddComment(event) {
         setStockData(data);
       }
     } catch (error) {
-      setError(language === 'es' ? `Error al obtener los datos` : `Error while getting data`);
+      setError(dictionary.dataError);
     }
   };
 
@@ -67,7 +79,7 @@ function handleAddComment(event) {
   const savePreferences = () => {
     localStorage.setItem('userName', userName);
     localStorage.setItem('language', language);
-    alert(language === 'es' ? `Preferencias Guardadas` : `Saved preferences`);
+    alert(dictionary.savedPreferences);
   };
 
  // Llamada a la API para obtener los tickers variados
@@ -97,7 +109,7 @@ function handleAddComment(event) {
 
         setMarketData(allData);
       } catch (error) {
-        setError(language === 'es' ? `Error al conectar con la API.` : `Error connecting to the API.`);
+        setError(dictionary.apiError);
       } finally {
         setLoading(false);
       }
@@ -119,12 +131,18 @@ function handleAddComment(event) {
 
         <nav className="mt-4">
           <ul className="flex space-x-4 bg-gray-700 p-2 rounded">
-            <li><a href="#" onClick={() => showSection('inicio')} className="text-white hover:underline">{language === 'es' ? `Inicio` : `Home`}</a></li>
-            <li><a href="#" onClick={() => showSection('Buscador de Acciones')} className="text-white hover:underline">{language === 'es' ? `Buscador de Acciones` : `Stock Finder`}</a></li>
-            <li><a href="#" onClick={() => showSection('noticias')} className="text-white hover:underline">{language === 'es' ? `Noticias` : `News`}</a></li>
-            <li><a href="#" onClick={() => showSection('contacto')} className="text-white hover:underline">{language === 'es' ? `Contactanos` : `Contact Us`}</a></li>
-            <li><a href="#" onClick={() => showSection('educación')} className="text-white hover:underline">{language === 'es' ? `Educación` : `Education`}</a></li>
-            <li><a href="#" onClick={() => showSection('comunidad')} className="text-white hover:underline">{language === 'es' ? `Comunidad` : `Community`}</a></li>
+            {dictionary.nav ? (
+              <>
+                <li><a href="#" onClick={() => showSection('inicio')} className="text-white hover:underline">{dictionary.nav.home}</a></li>
+                <li><a href="#" onClick={() => showSection('Buscador de Acciones')} className="text-white hover:underline">{dictionary.nav.stockFinder}</a></li>
+                <li><a href="#" onClick={() => showSection('noticias')} className="text-white hover:underline">{dictionary.nav.news}</a></li>
+                <li><a href="#" onClick={() => showSection('contacto')} className="text-white hover:underline">{dictionary.nav.contactUs}</a></li>
+                <li><a href="#" onClick={() => showSection('educación')} className="text-white hover:underline">{dictionary.nav.education}</a></li>
+                <li><a href="#" onClick={() => showSection('comunidad')} className="text-white hover:underline">{dictionary.nav.community}</a></li>
+              </>
+            ) : (
+             <li>Loading...</li> 
+            )}
           </ul>
         </nav>
       </header>
@@ -134,10 +152,10 @@ function handleAddComment(event) {
 
 
           <div className="mt-6">
-            <h3 className="text-2xl font-bold">{language === 'es' ? `Configuración del Usuario` : `User Configuration`}</h3>
+            <h3 className="text-2xl font-bold">{(dictionary.userConfigurations)}</h3>
             <form onSubmit={(e) => e.preventDefault()} className="mt-4">
               <label className="block mb-2">
-              {language === 'es' ? `Nombre:` : `Name:`}
+              {(dictionary.name)}
                 <input
                   type="text"
                   value={userName}
@@ -146,47 +164,47 @@ function handleAddComment(event) {
                 />
               </label>
               <label className="block mb-4">
-              {language === 'es' ? `Idioma:` : `Languaje:`}
+              {(dictionary.language)}
                 <select
                   value={language}
                   onChange={(e) => setLanguage(e.target.value)}
                   className="border px-2 py-1 mt-1 ml-4 rounded text-black"
                 >
-                  <option value="es"> {language === 'es' ? `Español` : `Spanish`}</option>
-                  <option value="en">{language === 'es' ? `Ingles` : `English`}</option>
+                  <option value="es"> {(dictionary.spanish)}</option>
+                  <option value="en">{(dictionary.english)}</option>
                 </select>
               </label>
               <button
                 onClick={savePreferences}
                 className="bg-blue-500 text-white px-4 py-2 rounded"
               >
-                {language === 'es' ? `Guardar Preferencias` : `Save Preferences`}
+                {(dictionary.savedPreferences)}
               </button>
             </form>
           </div>
 
           <div className="mt-6">
-            <h2 className="text-3xl font-bold"> {language === 'es' ? `Bienvenido a Financial Analyst ${userName}!` : `Welcome to Financial Analyst ${userName}!`} </h2>
-            <p className='mt-4'> {language === 'es' ? `Aquí puedes buscar información sobre acciones, ver sus métricas más importantes y aprender como invertir.` : `Here you can search for information about stocks, see their most important metrics and learn how to invest.`}</p>
+          <h2 className="text-3xl font-bold">{dictionary.welcome ? dictionary.welcome(userName) : ''}</h2>
+            <p className='mt-4'> {dictionary.welcometext}</p>
 
-            <p className="mt-2"> {language === 'es' ? `Para empezar, utiliza nuestro Buscador de Acciones y escribe el símbolo (ticker) de la acción que te interese. Por ejemplo:` : `To get started, use our Stock Finder and write the symbol (ticker) of the stock that interests you. For example:`}</p>
+            <p className="mt-2"> {dictionary.welcometext2}</p>
           <ul className="list-disc ml-6 mt-2 text-white">
-            <li><strong>AAPL</strong> {language === 'es' ? `Para Apple Inc.` : `For Apple Inc.`}</li>
-            <li><strong>GOOGL</strong> {language === 'es' ? `Para Alphabet (Google)` : `For Alphabet (Google)`} .</li>
-            <li><strong>AMZN</strong> {language === 'es' ? `Para Amazon` : `For Amazon`} </li>
-            <li><strong>TSLA</strong> {language === 'es' ? `Para Tesla` : `For Tesla`} </li>
+            <li><strong>AAPL</strong> {dictionary.ExampleApple}</li>
+            <li><strong>GOOGL</strong> {dictionary.ExampleGoogle} .</li>
+            <li><strong>AMZN</strong> {dictionary.ExampleAmazon} </li>
+            <li><strong>TSLA</strong> {dictionary.ExampleTesla} </li>
           </ul>
-          <p className="mt-4"> {language === 'es' ? `Luego, te mostraremos las métricas financieras clave de esa acción, incluyendo su precio actual, variaciones diarias, rendimiento de dividendos, entre otros. Además, podrás ver las últimas noticias relacionadas con la empresa.` : `Then, we'll show you the most important financial metrics for that stock, including its current price, daily changes, dividend yield, and more. In addition, you will be able to see the latest news related to the company.`}</p>
+          <p className="mt-4"> {dictionary.welcometext3}</p>
 
-          <p className="mt-4"> {language === 'es' ? `Si quieres aprender mas acerca del tema, ve a la sección <strong> Educación</strong> en donde encontraras explicaciones y videos.` : `If you want to learn more about the topic, go to the Education section where you will find explanations and videos.`} </p>
+          <p className="mt-4"> {dictionary.welcometext4} </p>
 
           </div>
           <div className="mt-6">
-          <h3 className="text-2xl font-bold">{language === 'es' ? `Lista de acciones del Mercado` : `Market Stock List`}</h3>
-          <p> {language === 'es' ? `Visualiza algunas de las acciones más recientes en el mercado:` : `View some of the most recent actions on the market:`}</p>
+          <h3 className="text-2xl font-bold">{dictionary.MarcketStockList}</h3>
+          <p> {dictionary.welcometext5}</p>
 
           {loading ? (
-            <p> {language === 'es' ? `Cargando datos...` : `Loading data...`}</p>
+            <p> {dictionary.loading}</p>
           ) : error ? (
             <p className="text-red-500">{error}</p>
           ) : (
@@ -194,10 +212,10 @@ function handleAddComment(event) {
               <table className="min-w-full bg-gray-800 text-white">
                 <thead>
                   <tr>
-                    <th className="py-2 px-4 text-left"> {language === 'es' ? `Ticker` : `Ticker`}</th>
-                    <th className="py-2 px-4 text-left"> {language === 'es' ? `Último` : `Last`}</th>
-                    <th className="py-2 px-4 text-left"> {language === 'es' ? `Cambio` : `Change`}</th>
-                    <th className="py-2 px-4 text-left"> {language === 'es' ? `Volumen` : `Volume`}</th>
+                    <th className="py-2 px-4 text-left"> {dictionary.ticker}</th>
+                    <th className="py-2 px-4 text-left"> {dictionary.last}</th>
+                    <th className="py-2 px-4 text-left"> {dictionary.change}</th>
+                    <th className="py-2 px-4 text-left"> {dictionary.volume}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -227,7 +245,7 @@ function handleAddComment(event) {
             <div className="relative flex-grow">
               <input
                 type="text"
-                placeholder= {language === 'es' ? `Buscar símbolo` : `Search symbol`}
+                placeholder= {dictionary.searchsymbol}
                 className="p-2 pl-10 text-sm rounded bg-gray-700 text-white focus:outline-none focus:ring focus:ring-gray-600 w-full"
                 onChange={(e) => setSymbol(e.target.value)}
                 onKeyDown={handleKeyPress} // Llamar la función cuando se presione "Enter"
@@ -249,7 +267,7 @@ function handleAddComment(event) {
             </div>
 
             <button type="submit" className="ml-2 bg-blue-500 text-white p-2 rounded">
-            {language === 'es' ? `Buscar` : `Search`}
+            {dictionary.search}
             </button>
           </form>
 
@@ -269,32 +287,32 @@ function handleAddComment(event) {
           {stockData && (
             <div className="bg-gray-800 p-4 rounded shadow mb-4">
               <h2 className="text-xl font-bold mb-3">{stockData.name} ({stockData.symbol})</h2>
-              <p className="mb-1 bg-gray-700">PER: {stockData.PER || language === 'es' ? `No disponible` : `Not available`}</p>
-              <p className="mb-1 bg-gray-600">Beta: {stockData.beta || language === 'es' ? `No disponible` : `Not available`}</p>
-              <p className="mb-1 bg-gray-700"> {language === 'es' ? `Rendimiento de dividendos:` : `Dividend yield:`} {stockData.dividendYield || language === 'es' ? `No disponible` : `Not available`}</p>
-              <p className="mb-1 bg-gray-600"> {language === 'es' ? `Relación de pago de dividendos:` : `Dividend payout ratio:`} {stockData.dividendPayoutRatio || language === 'es' ? `No disponible` : `Not available`}</p>
-              <p className="mb-1 bg-gray-700"> {language === 'es' ? `Relación Deuda/Capital: ` : `Debt/Equity Ratio:`} {stockData.debtToEquityRatio || language === 'es' ? `No disponible` : `Not available` }</p>
-              <p className="mb-1 bg-gray-600"> {language === 'es' ? `Relación Precio/Ventas:` : `Price/Sales Ratio:`}  {stockData.priceToSales || language === 'es' ? `No disponible` : `Not available`}</p>
-              <p className="mb-1 bg-gray-700"> {language === 'es' ? `Flujo de efectivo por acción:` : `Cash flow per share:`}  {stockData.cashFlowPerShare || language === 'es' ? `No disponible` : `Not available`}</p>
-              <p className="mb-1 bg-gray-600">ROI: {stockData.ROI || language === 'es' ? `No disponible` : `Not available`}</p>
-              <p className="mb-1 bg-gray-700">ROE: {stockData.ROE || language === 'es' ? `No disponible` : `Not available`}</p>
-              <p className="mb-1 bg-gray-600">ROA: {stockData.ROA || language === 'es' ? `No disponible` : `Not available`}</p>
-              <p className="mb-1 bg-gray-700"> {language === 'es' ? `Capitalización de mercado: ` : `Market capitalization:`} {stockData.marketCap || language === 'es' ? `No disponible` : `Not available`}</p>
-              <p className="mb-1 bg-gray-600">EPS: {stockData.eps || language === 'es' ? `No disponible` : `Not available`}</p>
-              <p className="mb-1 bg-gray-700"> {language === 'es' ? `Relación Precio/Valor Contable:` : `Price/Book Value Relationship:`}  {stockData.priceToBook || language === 'es' ? `No disponible` : `Not available`}</p>
-              <p className="mb-1 bg-gray-600"> {language === 'es' ? `Máximo 52 semanas:` : `Maximum 52 weeks:`} {stockData.weekHigh52 || language === 'es' ? `No disponible` : `Not available`}</p>
-              <p className="mb-1 bg-gray-700"> {language === 'es' ? `Mínimo 52 semanas:` : `Minimum 52 weeks:`}  {stockData.weekLow52 || language === 'es' ? `No disponible` : `Not available`}</p>
+              <p className="mb-1 bg-gray-700">PER: {stockData.PER || dictionary.sotck.notAvailable}</p>
+              <p className="mb-1 bg-gray-600">Beta: {stockData.beta || dictionary.stock.notAvailable}</p>
+              <p className="mb-1 bg-gray-700"> {dictionary.dividendYield} {stockData.stock.dividendYield || dictionary.stock.notAvailable}</p>
+              <p className="mb-1 bg-gray-600"> {dictionary.stock.dividendPayoutRatio} {stockData.dividendPayoutRatio || dictionary.stock.notAvailable}</p>
+              <p className="mb-1 bg-gray-700"> {dictionary.stock.debtToEquityRatio} {stockData.debtToEquityRatio || dictionary.stock.notAvailable}</p>
+              <p className="mb-1 bg-gray-600"> {dictionary.stock.priceToSales}  {stockData.priceToSales || dictionary.stock.notAvailable}</p>
+              <p className="mb-1 bg-gray-700"> {dictionary.stock.cashFlowPerShare}  {stockData.cashFlowPerShare || dictionary.stock.notAvailable}</p>
+              <p className="mb-1 bg-gray-600">ROI: {stockData.ROI || dictionary.stock.notAvailable}</p>
+              <p className="mb-1 bg-gray-700">ROE: {stockData.ROE || dictionary.stock.notAvailable}</p>
+              <p className="mb-1 bg-gray-600">ROA: {stockData.ROA || dictionary.stock.notAvailable}</p>
+              <p className="mb-1 bg-gray-700"> {dictionary.stock.marketCap} {stockData.marketCap || dictionary.stock.notAvailable}</p>
+              <p className="mb-1 bg-gray-600">EPS: {stockData.eps || dictionary.notAvailable}</p>
+              <p className="mb-1 bg-gray-700"> {dictionary.stock.priceToBook}  {stockData.priceToBook || dictionary.stock.notAvailable}</p>
+              <p className="mb-1 bg-gray-600"> {dictionary.stock.weekHigh52} {stockData.weekHigh52 || dictionary.stock.notAvailable}</p>
+              <p className="mb-1 bg-gray-700"> {dictionary.stock.weekLow52}  {stockData.weekLow52 || dictionary.stock.notAvailable}</p>
             </div>
           )}
 
           {stockData && stockData.news && (
             <div className="bg-gray-800 p-4 rounded shadow">
-              <h2 className="text-xl font-bold mb-2"> {language === 'es' ? `Últimas Noticias` : `Latest News`} </h2>
+              <h2 className="text-xl font-bold mb-2"> {dictionary.LatestNews} </h2>
               {stockData.news.map((article, index) => (
                 <div key={index} className="mb-2 bg-gray-700">
                   <h3 className="font-bold">{article.title}</h3>
                   <p>{article.description}</p>
-                  <a href={article.url} target="_blank" rel="noopener noreferrer" className="text-blue-500"> {language === 'es' ? `Leer más` : `Show more`}</a>
+                  <a href={article.url} target="_blank" rel="noopener noreferrer" className="text-blue-500"> {dictionary.ShowMore}</a>
                 </div>
               ))}
             </div>
@@ -305,60 +323,53 @@ function handleAddComment(event) {
       {/* Sección Noticias */}
       {activeSection === 'noticias' && (
         <div className="mt-6">
-          <h2 className="text-2xl font-bold"> {language === 'es' ? `Últimas Noticias` : `Latest News`}</h2>
-          <p> {language === 'es' ? `Aquí puedes ver las noticias recientes relacionadas con los mercados financieros.` : `Here you can see the recent news related to the financial markets.`} </p>
+          <h2 className="text-2xl font-bold"> {dictionary.LatestNews}</h2>
+          <p> {dictionary.NewsText} </p>
         </div>
       )}
 
       {/* Sección Contacto */}
       {activeSection === 'contacto' && (
         <div className="mt-6">
-          <h2 className="text-2xl font-bold"> {language === 'es' ? `Contacto` : `Contact`} </h2>
-          <p> {language === 'es' ? `Puedes ponerte en contacto con nosotros para más información o preguntas sobre nuestra plataforma.` : `You can contact us for more information or questions about our platform.`} </p>
-          <p className="mt-4"> {language === 'es' ? `Nombre: Benjamín Fernández` : `Name: Benjamín Fernández`}
-
-          </p>
-          <p> {language === 'es' ? `Correo electrónico: ` : `Email: `} 
+          <h2 className="text-2xl font-bold">{dictionary.contact.title}</h2>
+          <p>{dictionary.contact.description}</p>
+          <p className="mt-4">{dictionary.contact.name}: Benjamín Fernández</p>
+          <p>{dictionary.contact.email}: 
             <a href="mailto:benfernandez@alumnos.uai.cl" className="text-blue-500 underline">benfernandez@alumnos.uai.cl</a>
           </p>
 
-          <p className="mt-4"> {language === 'es' ? `Nombre: Alonso Gil ` : `Name: Alonso Gil`}
-            
-          </p>
-          <p> {language === 'es' ? `Correo electrónico: ` : `Email: `} 
+          <p className="mt-4">{dictionary.contact.name}: Alonso Gil</p>
+          <p>{dictionary.contact.email}: 
             <a href="mailto:algil@alumnos.uai.cl" className="text-blue-500 underline">algil@alumnos.uai.cl</a>
           </p>
 
-          <p className="mt-4"> {language === 'es' ? `Nombre: Fabián Villalobos ` : `Name: Fabián Villalobos `}
-          
+          <p className="mt-4">{dictionary.contact.name}: Fabián Villalobos</p>
+          <p>{dictionary.contact.email}: 
+            <a href="mailto:favillalobos@alumnos.uai.cl" className="text-blue-500 underline">favillalobos@alumnos.uai.cl</a>
           </p>
-          <p> {language === 'es' ? `Correo electrónico: ` : `Email: `} 
-            <a href="mailto:favillalobos@alumnos.uai.cll" className="text-blue-500 underline">favillalobos@alumnos.uai.cl</a>
-          </p>
-
         </div>
-      )}
+      )}  
       
       {/* Sección Educación */}
       {activeSection === 'educación' && (
         <div className="mt-6">
-          <h2 className="text-2xl font-bold"> {language === 'es' ? `Educación ` : `Education `}</h2>
-          <p> {language === 'es' ? `Aquí puedes ver material educativo para comprender la información.` : `Here you can see educational material to understand the information.`}</p>
+          <h2 className="text-2xl font-bold">{dictionary.education.title}</h2>
+          <p>{dictionary.education.description}</p>
           <ul className="list-disc pl-4 mt-4">
-            <li><strong>PER (Price to Earnings Ratio):</strong> {language === 'es' ? `Mide cuántas veces los inversores están dispuestos a pagar por cada unidad de ganancia generada por la empresa. ` : `It measures how many times investors are willing to pay for each unit of profit generated by the company. `} </li>
-            <li><strong>ROI (Return on Investment):</strong> {language === 'es' ? `Evalúa la rentabilidad de una inversión.` : `Evaluate the profitability of an investment.`} </li>
-            <li><strong>ROA (Return on Assets):</strong> {language === 'es' ? `Muestra la eficiencia con la que una empresa utiliza sus activos.` : `It shows how efficiently a company uses its assets.`} </li>
-            <li><strong>ROE (Return on Equity):</strong> {language === 'es' ? `Mide la rentabilidad para los accionistas.` : `Measures profitability for shareholders.`} </li>
-            <li><strong>Market Cap:</strong> {language === 'es' ? `Valor total de la empresa en el mercado.` : `Total value of the company in the market. `} </li>
-            <li><strong>Dividend Yield:</strong> {language === 'es' ? `Rendimiento anual de los dividendos de una empresa.` : `Annual dividend yield of a company. `} </li>
-            <li><strong>EPS (Earnings Per Share):</strong> {language === 'es' ? `Ganancia por cada acción de la empresa. ` : `Earnings for each share of the company.`} </li>
-            <li><strong>Price to Book (P/B Ratio):</strong> {language === 'es' ? `Compara el precio de mercado con el valor en libros.` : `Compare the market price to the book value.`} </li>
-            <li><strong>Beta:</strong> {language === 'es' ? `Mide la volatilidad de una acción en comparación con el mercado.` : `Measures the volatility of a stock compared to the market.`} </li>
+            <li><strong>PER (Price to Earnings Ratio):</strong> {dictionary.education.terms.per}</li>
+            <li><strong>ROI (Return on Investment):</strong> {dictionary.education.terms.roi}</li>
+            <li><strong>ROA (Return on Assets):</strong> {dictionary.education.terms.roa}</li>
+            <li><strong>ROE (Return on Equity):</strong> {dictionary.education.terms.roe}</li>
+            <li><strong>Market Cap:</strong> {dictionary.education.terms.marketCap}</li>
+            <li><strong>Dividend Yield:</strong> {dictionary.education.terms.dividendYield}</li>
+            <li><strong>EPS (Earnings Per Share):</strong> {dictionary.education.terms.eps}</li>
+            <li><strong>Price to Book (P/B Ratio):</strong> {dictionary.education.terms.pbRatio}</li>
+            <li><strong>Beta:</strong> {dictionary.education.terms.beta}</li>
           </ul>
 
           {/* Sección de Videos Educacionales */}
-          <h3 className="text-xl font-semibold mt-8"> {language === 'es' ? `Videos Educacionales ` : `Educational Videos `} </h3>
-          <p> {language === 'es' ? `Aprende más sobre conceptos financieros y análisis de acciones con los siguientes videos: ` : `Learn more about financial concepts and stock analysis with the following videos: `} </p>
+          <h3 className="text-xl font-semibold mt-8">{dictionary.education.videos}</h3>
+          <p>{dictionary.education.videosDescription}</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
             {/* Video 1 */}
             <div className="aspect-w-16 aspect-h-9">
@@ -393,31 +404,31 @@ function handleAddComment(event) {
           </div>
 
           {/* Sección de Libros Recomendados */}
-          <h3 className="text-xl font-semibold mt-8"> {language === 'es' ? `Libros Recomendados ` : `Recommended Books `}</h3>
+          <h3 className="text-xl font-semibold mt-8">{dictionary.education.books}</h3>
           <ul className="list-disc pl-4 mt-4">
             <li>
-              <strong> {language === 'es' ? `El Inversor Inteligente ` : `The Intelligent Investor `}</strong> {language === 'es' ? `de Benjamin Graham: Considerado uno de los mejores libros sobre inversión, ofrece principios de inversión que han resistido la prueba del tiempo. ` : `by Benjamin Graham: Considered one of the best books on investing, it offers investing principles that have stood the test of time. `} 
-              <a href="https://www.amazon.com/dp/0060555661" target="_blank" rel="noopener noreferrer" className="text-blue-500"> ( {language === 'es' ? `Ver en Amazon` : `See on Amazon`} )</a>
+              <strong>{dictionary.education.bookDescriptions.intelligentInvestor}</strong>
+              <a href="https://www.amazon.com/dp/0060555661" target="_blank" rel="noopener noreferrer" className="text-blue-500"> ({dictionary.education.seeOnAmazon})</a>
             </li>
             <li>
-              <strong> {language === 'es' ? `Un paseo aleatorio por Wall Street ` : `A Random Walk down Wall Street `} </strong> {language === 'es' ? `de Burton Malkiel: Un análisis accesible sobre la inversión en acciones y cómo funcionan los mercados. ` : `by Burton Malkiel: An accessible analysis of investing in stocks and how markets work.`} 
-              <a href="https://www.amazon.com/dp/0393352242" target="_blank" rel="noopener noreferrer" className="text-blue-500"> ( {language === 'es' ? `Ver en Amazon` : `See on Amazon`} )</a>
+              <strong>{dictionary.education.bookDescriptions.randomWalk}</strong>
+              <a href="https://www.amazon.com/dp/0393352242" target="_blank" rel="noopener noreferrer" className="text-blue-500"> ({dictionary.education.seeOnAmazon})</a>
             </li>
             <li>
-              <strong> {language === 'es' ? `Los secretos de la mente millonaria ` : `The Secrets of the Millionaire Mind`} </strong> {language === 'es' ? `de T. Harv Eker: Explora la psicología del dinero y cómo nuestras creencias afectan nuestra capacidad de generar riqueza.` : `by T. Harv Eker: Explores the psychology of money and how our beliefs affect our ability to generate wealth. `} 
-              <a href="https://www.amazon.com/dp/1682990483" target="_blank" rel="noopener noreferrer" className="text-blue-500"> ( {language === 'es' ? `Ver en Amazon` : `See on Amazon`} )</a>
+              <strong>{dictionary.education.bookDescriptions.millionaireMind}</strong>
+              <a href="https://www.amazon.com/dp/1682990483" target="_blank" rel="noopener noreferrer" className="text-blue-500"> ({dictionary.education.seeOnAmazon})</a>
             </li>
             <li>
-              <strong> {language === 'es' ? `La bolsa o la vida ` : `Your Money or Your Life `} </strong> {language === 'es' ? `de Joe Dominguez y Vicki Robin: Un enfoque sobre la relación entre el dinero y la vida, y cómo gestionar mejor nuestras finanzas.` : `by Joe Dominguez and Vicki Robin: A focus on the relationship between money and life, and how to better manage our finances.`}  
-              <a href="https://www.amazon.com/dp/0143115766" target="_blank" rel="noopener noreferrer" className="text-blue-500"> ({language === 'es' ? `Ver en Amazon` : `See on Amazon`})</a>
+              <strong>{dictionary.education.bookDescriptions.yourMoney}</strong>
+              <a href="https://www.amazon.com/dp/0143115766" target="_blank" rel="noopener noreferrer" className="text-blue-500"> ({dictionary.education.seeOnAmazon})</a>
             </li>
             <li>
-              <strong> {language === 'es' ? `Buffettologia ` : `Buffettology `} </strong> {language === 'es' ? `de Mary Buffett:  Este libro explica con múltiples ejemplos reales las técnicas que utiliza Warren Buffett, el inversor que ha convertido 105.000 dólares en 20 billones de dólares. ` : `by Mary Buffett: This book explains with multiple real examples the techniques used by Warren Buffett, the investor who has turned $105,000 into $20 billion.`} 
-              <a href="https://www.amazon.com/-/es/Mary-Buffett/dp/8480885505" target="_blank" rel="noopener noreferrer" className="text-blue-500"> ({language === 'es' ? `Ver en Amazon` : `See on Amazon`} )</a>
+              <strong>{dictionary.education.bookDescriptions.buffettology}</strong>
+              <a href="https://www.amazon.com/-/es/Mary-Buffett/dp/8480885505" target="_blank" rel="noopener noreferrer" className="text-blue-500"> ({dictionary.education.seeOnAmazon})</a>
             </li>
             <li>
-              <strong>{language === 'es' ? `Trading en la zona ` : `Trading in the area`} </strong> {language === 'es' ? `de Mark Douglas: Para Douglas, maximizar una actitud mental adecuada es clave para conseguir buenos resultados y resulta ser mucho más importante que los análisis de mercados o los diversos sistemas que se ponen de moda periódicamente. ` : `by Mark Douglas: For Douglas, maximizing an appropriate mental attitude is key to achieving good results and turns out to be much more important than market analysis or the various systems that periodically become fashionable. `} 
-              <a href="https://www.amazon.com/-/es/Trading-en-zona-Mark-Douglas/dp/8493622664" target="_blank" rel="noopener noreferrer" className="text-blue-500"> ({language === 'es' ? `Ver en Amazon` : `See on Amazon`})</a>
+              <strong>{dictionary.education.bookDescriptions.tradingInTheZone}</strong>
+              <a href="https://www.amazon.com/-/es/Trading-en-zona-Mark-Douglas/dp/8493622664" target="_blank" rel="noopener noreferrer" className="text-blue-500"> ({dictionary.education.seeOnAmazon})</a>
             </li>
           </ul>
         </div>
@@ -427,14 +438,14 @@ function handleAddComment(event) {
             {/* Sección Comunidad */}
             {activeSection === 'comunidad' && (
         <div className="mt-8 bg-white p-6 rounded-md shadow-sm">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4"> {language === 'es' ? `Comunidad ` : ` Community `}</h2>
-          <p className="text-gray-700 mb-4"> {language === 'es' ? `Comparte tus opiniones y comentarios con la comunidad. ` : ` Share your opinions and comments with the community. `} </p>
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4"> {dictionary.community}</h2>
+          <p className="text-gray-700 mb-4"> {dictionary.CommunityText} </p>
 
           {/* Formulario de Comentarios */}
           <form onSubmit={handleAddComment} className="mb-6">
             <textarea
               className="w-full p-3 border border-gray-300 rounded-md mb-4 text-black"
-              placeholder= {language === 'es' ? `Escribe tu comentario aquí...` : ` Write your comment here... `} 
+              placeholder= {dictionary.Comment} 
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
               required
@@ -443,7 +454,7 @@ function handleAddComment(event) {
               type="submit"
               className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-200"
             >
-              {language === 'es' ? `Agregar Comentario` : ` Add Comment `} 
+              {dictionary.AddComment} 
             </button>
           </form>          
 
