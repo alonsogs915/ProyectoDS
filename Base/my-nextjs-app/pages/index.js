@@ -130,21 +130,70 @@ function handleAddComment(event) {
         </div>
 
         <nav className="mt-4">
-          <ul className="flex space-x-4 bg-gray-700 p-2 rounded">
+          <ul className="flex flex-wrap sm:flex-nowrap flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-4 bg-gray-700 p-2 rounded">
             {dictionary.nav ? (
               <>
-                <li><a href="#" onClick={() => showSection('inicio')} className="text-white hover:underline">{dictionary.nav.home}</a></li>
-                <li><a href="#" onClick={() => showSection('Buscador de Acciones')} className="text-white hover:underline">{dictionary.nav.stockFinder}</a></li>
-                <li><a href="#" onClick={() => showSection('noticias')} className="text-white hover:underline">{dictionary.nav.news}</a></li>
-                <li><a href="#" onClick={() => showSection('contacto')} className="text-white hover:underline">{dictionary.nav.contactUs}</a></li>
-                <li><a href="#" onClick={() => showSection('educación')} className="text-white hover:underline">{dictionary.nav.education}</a></li>
-                <li><a href="#" onClick={() => showSection('comunidad')} className="text-white hover:underline">{dictionary.nav.community}</a></li>
+                <li>
+                  <a 
+                    href="#" 
+                    onClick={() => showSection('inicio')} 
+                    className="text-white hover:underline block sm:inline"
+                  >
+                    {dictionary.nav.home}
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="#" 
+                    onClick={() => showSection('Buscador de Acciones')} 
+                    className="text-white hover:underline block sm:inline"
+                  >
+                    {dictionary.nav.stockFinder}
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="#" 
+                    onClick={() => showSection('noticias')} 
+                    className="text-white hover:underline block sm:inline"
+                  >
+                    {dictionary.nav.news}
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="#" 
+                    onClick={() => showSection('contacto')} 
+                    className="text-white hover:underline block sm:inline"
+                  >
+                    {dictionary.nav.contactUs}
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="#" 
+                    onClick={() => showSection('educación')} 
+                    className="text-white hover:underline block sm:inline"
+                  >
+                    {dictionary.nav.education}
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="#" 
+                    onClick={() => showSection('comunidad')} 
+                    className="text-white hover:underline block sm:inline"
+                  >
+                    {dictionary.nav.community}
+                  </a>
+                </li>
               </>
             ) : (
-             <li>Loading...</li> 
+              <li>Loading...</li> 
             )}
           </ul>
         </nav>
+
       </header>
 
       {activeSection === 'inicio' && (
@@ -434,35 +483,37 @@ function handleAddComment(event) {
         </div>
       )}
 
-
-            {/* Sección Comunidad */}
-            {activeSection === 'comunidad' && (
-        <div className="mt-8 bg-white p-6 rounded-md shadow-sm">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4"> {dictionary.community}</h2>
-          <p className="text-gray-700 mb-4"> {dictionary.CommunityText} </p>
+      {/* Sección Comunidad */}
+      {activeSection === 'comunidad' && (
+        <div className="mt-8 bg-gray-800 p-6 rounded-md shadow-lg">
+          <h2 className="text-3xl font-bold text-white mb-6">{dictionary.community}</h2>
+          <p className="text-gray-300 mb-4">{dictionary.CommunityText}</p>
 
           {/* Formulario de Comentarios */}
-          <form onSubmit={handleAddComment} className="mb-6">
+          <form onSubmit={handleAddComment} className="space-y-4">
             <textarea
-              className="w-full p-3 border border-gray-300 rounded-md mb-4 text-black"
-              placeholder= {dictionary.Comment} 
+              className="w-full p-4 border border-gray-700 rounded-lg bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder={dictionary.Comment}
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
               required
             ></textarea>
             <button
               type="submit"
-              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-200"
+              className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition duration-200"
             >
-              {dictionary.AddComment} 
+              {dictionary.AddComment}
             </button>
-          </form>          
+          </form>
 
           {/* Lista de Comentarios */}
-          <div className="space-y-4">
+          <div className="space-y-4 mt-6">
             {comments.map((comment, index) => (
-              <div key={index} className="p-4 border border-gray-200 rounded-md">
-                <p className="text-gray-800">{comment}</p>
+              <div
+                key={index}
+                className="p-4 border border-gray-700 bg-gray-900 rounded-lg shadow-sm"
+              >
+                <p className="text-gray-300">{comment}</p>
               </div>
             ))}
           </div>
