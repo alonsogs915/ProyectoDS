@@ -101,7 +101,7 @@ const dictionaries = {
 
         /*Seccion de Community*/
 
-        CommunityText: `Share your opinions and comments with the community.`,
+        CommunityText: `Share your opinions and comments with the community (remember to be respectful).`,
         Comment: `Write your comment here...`,
         AddComment: `Add Comment`
     }),
@@ -204,7 +204,7 @@ const dictionaries = {
 
         /*Seccion de Community*/
 
-        CommunityText: `Comparte tus opiniones y comentarios con la comunidad.`,
+        CommunityText: `Comparte tus opiniones y comentarios con la comunidad (recuerda ser respetuoso).`,
         Comment: `Escribe tu comentario aquí...`,
         AddComment: `Agregar Comentario`
     })
