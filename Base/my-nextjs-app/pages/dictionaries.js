@@ -58,7 +58,7 @@ const dictionaries = {
 
         /*Seccion de News*/
 
-        NewsText: `Here you can see the recent news related to the financial markets.`,
+        NewsText: `Here you can see the recent news related to the financial markets (in maintenance).`,
 
         /*Seccion de Contact Us*/
 
@@ -161,7 +161,7 @@ const dictionaries = {
 
         /*Seccion de News*/
 
-        NewsText: `Aquí puedes ver las noticias recientes relacionadas con los mercados financieros.`,
+        NewsText: `Aquí puedes ver las noticias recientes relacionadas con los mercados financieros (En mantenimiento).`,
 
         /*Seccion de Contact Us*/
 
