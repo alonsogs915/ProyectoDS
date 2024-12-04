@@ -1,4 +1,3 @@
-
 const dictionaries = {
     'en': () => ({
         dataError: 'Error while getting data',  
@@ -103,7 +102,8 @@ const dictionaries = {
 
         CommunityText: `Share your opinions and comments with the community (remember to be respectful).`,
         Comment: `Write your comment here...`,
-        AddComment: `Add Comment`
+        AddComment: `Add Comment`,
+
     }),
     'es': () => ({
         savedPreferences: 'Preferencias guardadas',
@@ -206,7 +206,7 @@ const dictionaries = {
 
         CommunityText: `Comparte tus opiniones y comentarios con la comunidad (recuerda ser respetuoso).`,
         Comment: `Escribe tu comentario aquí...`,
-        AddComment: `Agregar Comentario`
+        AddComment: `Agregar Comentario`,
     })
 
 };

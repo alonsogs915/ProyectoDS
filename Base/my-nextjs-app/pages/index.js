@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getDictionary } from './dictionaries';
+import Chatbot from './chatbot';
 
 export default function Home() {
   const [symbol, setSymbol] = useState('');
@@ -11,7 +12,6 @@ export default function Home() {
   const [newComment, setNewComment] = useState("");
   const [comments, setComments] = useState([]);
   const [dictionary, setDictionary] = useState({});
-    // Estados para el nombre del usuario y el idioma preferido
   const [userName, setUserName] = useState('');
   const [language, setLanguage] = useState('es'); // 'es' para español, 'en' para inglés
 
@@ -23,14 +23,11 @@ export default function Home() {
     loadDictionary();
   }, [language]);
 
-
-function handleAddComment(event) {
-  event.preventDefault();
-  setComments([...comments, newComment]);
-  setNewComment(""); // Limpia el campo después de agregar el comentario
-}
-
-
+  function handleAddComment(event) {
+    event.preventDefault();
+    setComments([...comments, newComment]);
+    setNewComment(""); // Limpia el campo después de agregar el comentario
+  }
 
   // Lista de tickers variados
   const tickers = ['', ''];
@@ -198,8 +195,6 @@ function handleAddComment(event) {
 
       {activeSection === 'inicio' && (
         <>
-
-
           <div className="mt-6">
             <h3 className="text-2xl font-bold">{(dictionary.userConfigurations)}</h3>
             <form onSubmit={(e) => e.preventDefault()} className="mt-4">
@@ -520,7 +515,7 @@ function handleAddComment(event) {
         </div>
       )}
 
-
+      <Chatbot />
 
     </div>
   );
