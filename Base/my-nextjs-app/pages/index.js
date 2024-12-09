@@ -322,9 +322,9 @@ export default function Home() {
           {stockData && (
             <div className="bg-gray-800 p-4 rounded shadow mb-4">
               <h2 className="text-xl font-bold mb-3">{stockData.name} ({stockData.symbol})</h2>
-              <p className="mb-1 bg-gray-700">PER: {stockData.PER || dictionary.sotck.notAvailable}</p>
+              <p className="mb-1 bg-gray-700">PER: {stockData.PER || dictionary.stock.notAvailable}</p>
               <p className="mb-1 bg-gray-600">Beta: {stockData.beta || dictionary.stock.notAvailable}</p>
-              <p className="mb-1 bg-gray-700"> {dictionary.dividendYield} {stockData.stock.dividendYield || dictionary.stock.notAvailable}</p>
+              <p className="mb-1 bg-gray-700"> {dictionary.dividendYield} {stockData.dividendYield || dictionary.stock.notAvailable}</p>
               <p className="mb-1 bg-gray-600"> {dictionary.stock.dividendPayoutRatio} {stockData.dividendPayoutRatio || dictionary.stock.notAvailable}</p>
               <p className="mb-1 bg-gray-700"> {dictionary.stock.debtToEquityRatio} {stockData.debtToEquityRatio || dictionary.stock.notAvailable}</p>
               <p className="mb-1 bg-gray-600"> {dictionary.stock.priceToSales}  {stockData.priceToSales || dictionary.stock.notAvailable}</p>
@@ -333,7 +333,7 @@ export default function Home() {
               <p className="mb-1 bg-gray-700">ROE: {stockData.ROE || dictionary.stock.notAvailable}</p>
               <p className="mb-1 bg-gray-600">ROA: {stockData.ROA || dictionary.stock.notAvailable}</p>
               <p className="mb-1 bg-gray-700"> {dictionary.stock.marketCap} {stockData.marketCap || dictionary.stock.notAvailable}</p>
-              <p className="mb-1 bg-gray-600">EPS: {stockData.eps || dictionary.notAvailable}</p>
+              <p className="mb-1 bg-gray-600">EPS: {stockData.eps || dictionary.stock.notAvailable}</p>
               <p className="mb-1 bg-gray-700"> {dictionary.stock.priceToBook}  {stockData.priceToBook || dictionary.stock.notAvailable}</p>
               <p className="mb-1 bg-gray-600"> {dictionary.stock.weekHigh52} {stockData.weekHigh52 || dictionary.stock.notAvailable}</p>
               <p className="mb-1 bg-gray-700"> {dictionary.stock.weekLow52}  {stockData.weekLow52 || dictionary.stock.notAvailable}</p>

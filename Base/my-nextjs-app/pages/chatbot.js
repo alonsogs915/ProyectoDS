@@ -8,8 +8,8 @@ const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [suggestions, setSuggestions] = useState([
-    "¿Cuál es el tincker de la empresa?",
-    "¿Qué significa...?"
+    "¿Cuál es el tincker de la empresa ",
+    "¿Qué significa "
   ]);
   const chatContainerRef = useRef(null);
 
