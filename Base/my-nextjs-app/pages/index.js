@@ -151,15 +151,6 @@ export default function Home() {
                 <li>
                   <a 
                     href="#" 
-                    onClick={() => showSection('noticias')} 
-                    className="text-white hover:underline block sm:inline"
-                  >
-                    {dictionary.nav.news}
-                  </a>
-                </li>
-                <li>
-                  <a 
-                    href="#" 
                     onClick={() => showSection('contacto')} 
                     className="text-white hover:underline block sm:inline"
                   >
@@ -364,13 +355,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* Sección Noticias */}
-      {activeSection === 'noticias' && (
-        <div className="mt-6">
-          <h2 className="text-2xl font-bold"> {dictionary.LatestNews}</h2>
-          <p> {dictionary.NewsText} </p>
-        </div>
-      )}
 
       {/* Sección Contacto */}
       {activeSection === 'contacto' && (
